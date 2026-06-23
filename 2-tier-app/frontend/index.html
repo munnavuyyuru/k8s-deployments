@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-Tier K8s App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cubes"></i>
+                <h1>2-Tier K8s App</h1>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span id="status-text">Checking...</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="hero-section">
+                <h2>Welcome to Your Kubernetes Application</h2>
+                <p class="subtitle">A modern full-stack application deployed with Docker and Kubernetes</p>
+            </div>
+
+            <div class="info-cards">
+                <div class="card">
+                    <div class="card-icon frontend-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Frontend Tier</h3>
+                    <p>Modern responsive UI built with HTML5, CSS3, and vanilla JavaScript. Served via Nginx in a Docker container.</p>
+                    <div class="tech-tags">
+                        <span class="tag">HTML5</span>
+                        <span class="tag">CSS3</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon backend-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>Backend Tier</h3>
+                    <p>RESTful API powered by Node.js and Express. Handles data processing and serves dynamic content to the frontend.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express</span>
+                        <span class="tag">REST API</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon k8s-icon">
+                        <i class="fas fa-dharmachakra"></i>
+                    </div>
+                    <h3>Kubernetes</h3>
+                    <p>Container orchestration with Kubernetes ensuring high availability, scalability, and seamless deployment.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Docker</span>
+                        <span class="tag">Kubernetes</span>
+                        <span class="tag">DevOps</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="api-section">
+                <h3><i class="fas fa-plug"></i> Live API Data</h3>
+                <div id="api-data" class="api-data-container">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Loading data from backend...
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button onclick="fetchData()" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Refresh Data
+                </button>
+                <button onclick="checkHealth()" class="btn btn-secondary">
+                    <i class="fas fa-heartbeat"></i> Check Health
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>Built with ❤️ for Kubernetes Learning</p>
+                <div class="footer-links">
+                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-docker"></i></a>
+                    <a href="#" target="_blank"><i class="fas fa-book"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
