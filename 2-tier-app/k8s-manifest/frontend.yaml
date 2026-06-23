@@ -6,7 +6,7 @@ metadata:
   labels:
     app: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -19,12 +19,12 @@ spec:
         - name: regcred
       containers:
         - name: frontend
-          image: bhargav072/2-tire-app-frontend:latest
+          image: bhargav072/2-tire-app-frontend:v1.1
           ports:
             - containerPort: 80
-          env:
-            - name: API_BASE
-              value: "http://backend:8001"
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
           resources:
             limits:
               cpu: "500m"
@@ -32,6 +32,10 @@ spec:
             requests:
               cpu: "250m"
               memory: "128Mi"
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: frontend-nginx-config
 ---
 apiVersion: v1
 kind: Service
