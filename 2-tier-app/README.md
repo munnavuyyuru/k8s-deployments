@@ -56,7 +56,7 @@ The primary goal is to showcase secure frontend‑to‑backend communication wit
 ## Architecture
 
 ### System Architecture Diagram
-![Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](docs/architecture-diagram.png)
 
 ### Example Flow
 ```text
@@ -85,18 +85,18 @@ Backend Pod (Node.js API)
 ## Application Screenshots
 
 ### Frontend UI
-![Frontend UI](frontend-ui.png)
+![Frontend UI](docs/frontend-ui.png)
 
 ### API Communication Success
-![API Communication](api-success.png)
+![API Communication](docs/api-success.png)
 *Capture: GET /api/health → Status: 200 OK*
 
 ### Kubernetes Resources
-![Kubernetes Resources](k8s-resources.png)
+![Kubernetes Resources](docs/k8s-resources.png)
 *Example command: `kubectl get all -n 2tier-app`*
 
 ### Live Deployment (AWS EC2 + kind + MetalLB)
-![Live Deployment](svc-portforward.png)
+![Live Deployment](docs/svc-portforward.png)
 *Shows the service exposed via MetalLB’s external IP; alternatively, port‑forward can be used for testing.*
 
 ---
@@ -372,6 +372,8 @@ kubectl apply -f k8s-manifest/backend.yaml -n 2tier-app
 kubectl apply -f k8s-manifest/frontend-nginx-config.yaml -n 2tier-app
 kubectl apply -f k8s-manifest/frontend.yaml -n 2tier-app
 ```
+
+![Apply Manifests](docs/apply-manifest.png)
 
 #### Wait for Pods to be Ready
 
