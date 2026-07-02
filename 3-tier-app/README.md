@@ -365,3 +365,71 @@ aws ecr delete-repository --repository-name quotes-frontend --force
 3. The **Frontend** sends a request to the **Backend API**.
 4. The **Backend API** queries the **MySQL Database** to retrieve or persist data.
 5. All services run within **Amazon EKS**, pulling container images from **Amazon ECR**.
+
+---
+
+## Issues & Troubleshooting
+
+The following issues were encountered during the deployment of this application. The solutions and investigation steps are documented below for reference.
+
+### Issue 1: EBS CSI Driver Deployment Failure
+
+During the provisioning of the EKS cluster, the `aws-ebs-csi-driver` add-on failed to install correctly. This prevented the MySQL StatefulSet from provisioning its persistent storage.
+
+**Symptoms:**
+- The EBS CSI driver add-on status remained in `CREATING` indefinitely.
+- MySQL pods were stuck in the `Pending` state with PVCs unbound.
+
+**Investigation:**
+1. Checked the AWS add-on status using `aws eks describe-addon`.
+2. Verified that the `eks-pod-identity-agent` was missing, which is a prerequisite for the EBS CSI driver.
+3. Inspected the controller pod logs which showed `AccessDenied` errors due to missing IAM permissions.
+
+**Resolution:**
+1. Deleted the broken EBS CSI driver add-on.
+2. Installed the `eks-pod-identity-agent` add-on.
+3. Re-installed the `aws-ebs-csi-driver` add-on with the correct pod identity association.
+
+![EBS CSI Driver Fix](assets/issue-fixed-by-esb-csi-driver.png)
+
+**Result:** The CSI driver was correctly installed, allowing the PVC to be dynamically provisioned and bound to the MySQL pod.
+
+### Issue 2: CreateContainerConfigError - ConfigMap Not Found
+
+After deploying the backend API, the pods failed to start and entered a `CreateContainerConfigError` state.
+
+**Symptoms:**
+- Backend API pods showed `CreateContainerConfigError`.
+- The pod events indicated: `Error: configmap "mysql-config" not found`.
+
+**Investigation:**
+1. Verified that the `mysql-config` ConfigMap existed in the cluster.
+2. Checked the namespace of both the pod (`backend`) and the ConfigMap (`database`).
+3. Discovered that ConfigMaps are namespace-scoped resources. A pod can only access ConfigMaps within its own namespace.
+
+**Resolution:**
+1. Created a new ConfigMap named `mysql-config` within the `backend` namespace.
+2. Restarted the backend deployment so the pods could successfully mount the configuration.
+
+![PVC and Config Issue](assets/pvc-issue.png)
+
+**Result:** The backend pods started successfully and were able to read the database connection parameters from the ConfigMap.
+
+For a more detailed, step-by-step runbook of these debugging processes, please refer to the files in the `issues/` directory.
+
+---
+
+## Author
+
+**V Venkata Bhargav**
+
+DevOps Engineer | Cloud Enthusiast | Kubernetes Practitioner
+
+* [GitHub](https://github.com/your-username)
+* [LinkedIn](https://linkedin.com/in/your-profile)
+
+---
+
+## License
+
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
